@@ -31,21 +31,15 @@ int main() {
 void classicMult(int A[][4], int B[][4])
 {
 	int output[4][4];
-
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
 			output[i][j] = 0;
-
 			for (int k = 0; k < 4; k++) {
 				output[i][j] += A[i][k] * B[k][j];
 			}
-
 			printf("%d\t", output[i][j]);
 		}
-
 		printf("\n");
 	}
-
-
 	cout << "\nfunction called\n";
 }
