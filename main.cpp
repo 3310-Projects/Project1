@@ -1,20 +1,21 @@
 #include <iostream>
-using namespace std;
 #include <stdlib.h>
 #include <cstdlib>
+using namespace std;
 
-#define colA 4	//Define Column A 
-#define colB 4	//Define Column B
-#define rowA 4	//Define Row A
-#define rowB 4	//Define Row B
-#define colOut	4//Define output Column
-#define rowOut	4//Define output row
+#define aRow 4		//Define A Row
+#define aCol 4		//Define A Column 
+#define bRow 4		//Define B Row
+#define bCol 4		//Define B Column
+#define outRow 4	//Define Output Row
+#define outCol 4	//Define Output Column
 
-void print(int output[][colOut]);
-void classicMult(int A[][colA], int B[][colB], int output[][colOut]);
+
+void print(int output[][outCol]);
+void classicMult(int A[][aCol], int B[][bCol], int output[][outCol]);
 int main() {
 // MAIN METHOD TESTING METHOD
-//	int random = rand();
+//	int random = (rand() % 10) + 1;
 //	cout << random;
 //	cout << "\n";
 
@@ -30,25 +31,27 @@ int main() {
 		{1,3,4,2},
 		{6,5,3,4}
 	};
-	int output[rowOut][colOut];
+	int output[outRow][outCol];
 	 classicMult(A, B, output);
 	 print(output);
+
+
+
 
 	system("pause");
 	return 0;
 
 }
 
-void classicMult(int A[][colA], int B[][colB], int output[][colOut])
+void classicMult(int A[][aCol], int B[][bCol], int output[][outCol])
 {
 	int currentvalue;
-//	int output[rowA][colB];
 
-	for (int i = 0; i < rowA; i++) {
-		for (int j = 0; j < colB; j++) {
+	for (int i = 0; i < aRow; i++) {
+		for (int j = 0; j < aCol; j++) {
 			output[i][j] = 0;
 
-			for (int k = 0; k < rowB; k++) {
+			for (int k = 0; k < bRow; k++) {
 				currentvalue = A[i][k] * B[k][j];
 				output[i][j] = currentvalue + output[i][j];
 			}
@@ -56,9 +59,9 @@ void classicMult(int A[][colA], int B[][colB], int output[][colOut])
 	}
 }
 
-void print(int output[][colOut]) {
-	for (int i = 0; i < rowOut; i++) {
-		for (int j = 0; j < colOut; j++) {
+void print(int output[][outCol]) {
+	for (int i = 0; i < outRow; i++) {
+		for (int j = 0; j < outCol; j++) {
 			printf("%d\t", output[i][j]);
 		}
 		printf("\n");
