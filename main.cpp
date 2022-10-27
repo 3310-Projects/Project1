@@ -8,7 +8,7 @@ using namespace std;
 #define rowA 4	//Define Row A
 #define rowB 4	//Define Row B
 #define colOut	4//Define output Column
-#define rowOut	4//Define Row Column
+#define rowOut	4//Define output row
 
 void print(int output[][colOut]);
 void classicMult(int A[][colA], int B[][colB], int output[][colOut]);
