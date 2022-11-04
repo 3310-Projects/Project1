@@ -1,36 +1,33 @@
+import java.lang.*;
 class Matrix {
     public int size = 4;
     
     public static void main(String[] args) {
         Matrix m = new Matrix();
         
-        int size = 4;
-        int outputSize = 4;
-        int [][]A = {
-            {1,2,3,4},
-            {1,2,3,4},
-            {1,2,3,4},
-            {1,2,3,4}
-            
-        };
-        int [][]B = {
-            {1,2,3,4},
-            {1,2,3,4},
-            {1,2,3,4},
-            {1,2,3,4}
-        };
-       
+        int size = 512;                                 ////////////////CHANGE SIZE
+        int outputSize = size;                   
+    
+        
+        int [][] A = m.generateArray(size);   
+        int [][] B = m.generateArray(size);      
+        int startTime, endTime, runTime;
+        int [][] output = new int[outputSize][outputSize];
+        ///////////////////////////////////////STRASSEN ////////////////////////////
+        startTime = (int) System.currentTimeMillis();
+        System.out.println("Strassen Multiplication: ");
+        output = m.strassenMult(A, B, size);  
+        endTime = (int) System.currentTimeMillis();
+        runTime = endTime - startTime;
+        System.out.println("Runtime: " + runTime + " milliseconds");
 
-        int [][] testOutput = new int[outputSize][outputSize];
-        testOutput = m.strassenMult(A, B, 4);
- 
-        /////////////PRINT///////////////////
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++){
-                System.out.print(testOutput[i][j] + " ");
-            }
-            System.out.println();
-        }
+        ///////////////////////////////////////////NAIVE///////////////////////////////////
+        startTime = (int) System.currentTimeMillis();
+        System.out.println("Naive Multiplication: ");
+        output = m.classicMult(A, B);
+        endTime = (int) System.currentTimeMillis();
+        runTime = endTime - startTime;
+        System.out.println("Runtime: " + runTime + " milliseconds");
 
     }
     
@@ -143,6 +140,24 @@ class Matrix {
 
         }
 
+    }
+    public void print(int [][] output){
+        size = output.length;
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++){
+                System.out.print(output[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+    public int[][] generateArray(int size){
+        int [][] arrayToGenerate = new int[size][size];
+        for(int i = 0; i < size; i++){
+            for(int j = 0; j < size; j++){
+                arrayToGenerate[i][j] = (int)(Math.random() * 10);
+            }
+        }
+        return arrayToGenerate;
     }
 }
 
