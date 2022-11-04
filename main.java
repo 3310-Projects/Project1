@@ -1,5 +1,3 @@
-
-
 class Matrix {
     public int size = 4;
     
@@ -7,75 +5,80 @@ class Matrix {
         Matrix m = new Matrix();
         
         int size = 4;
-        int outputSize = 8;
+        int outputSize = 4;
         int [][]A = {
             {1,2,3,4},
-            {3,4,5,6},
             {1,2,3,4},
-            {3,4,5,6}
+            {1,2,3,4},
+            {1,2,3,4}
+            
         };
         int [][]B = {
             {1,2,3,4},
-            {3,4,5,6},
             {1,2,3,4},
-            {3,4,5,6}
+            {1,2,3,4},
+            {1,2,3,4}
         };
-        int [][]A2 = {
-            {1,2},
-            {3,4}
-        };
-        int [][]B2 = {
-            {1,2},
-            {3,4}
-        };
+       
 
         int [][] testOutput = new int[outputSize][outputSize];
-        m.merge(A, testOutput, 0, 0);
-        m.merge(A, testOutput, 0, outputSize/2);
-        m.merge(A, testOutput, outputSize/2, 0);
-        m.merge(A, testOutput, outputSize/2, outputSize/2);
-        int [][] testOutput2 = new int[size][size];
-        m.split(A, testOutput2, 0, 0);
+        testOutput = m.strassenMult(A, B, 4);
+ 
         /////////////PRINT///////////////////
-        for(int i = 0; i < testOutput.length; i++){
-            for(int j = 0; j < testOutput.length; j++){
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++){
                 System.out.print(testOutput[i][j] + " ");
             }
             System.out.println();
         }
-        for(int i = 0; i < testOutput2.length; i++){
-            for(int j = 0; j < testOutput2.length; j++){
-                System.out.print(testOutput2[i][j] + " ");
-            }
-            System.out.println();
-        }
- 
-    
-        
+
     }
     
     
     
-    public int[][] strassen(int[][]A, int[][]B){
+    public int[][] strassenMult(int[][]A, int[][]B, int size){
         int[][] output = new int[size][size];
         if(size == 1){
             output[0][0] = A[0][0] * B[0][0];
         }else{
             int newSize = size/2;
-            int[][] a,b,c,d,e,f,g,h = new int[newSize][newSize];
+            
+            int[][] a = new int[newSize][newSize];
+            int[][] b = new int[newSize][newSize];
+            int[][] c = new int[newSize][newSize];
+            int[][] d = new int[newSize][newSize];
+            int[][] e = new int[newSize][newSize];
+            int[][] f = new int[newSize][newSize];
+            int[][] g = new int[newSize][newSize];
+            int[][] h = new int[newSize][newSize];
   
 
- /*         split(A, A11, 0, 0);
-            split(B, B11, 0, 0);
-            split(A, A12, 0, size / 2);
-            split(B, B12, 0, size / 2);
-            split(A, A21, size / 2, 0);
-            split(B, B21, size / 2, 0);
-            split(A, A22, size / 2, size / 2);
-            split(B, B22, size / 2, size / 2);
-   */         
+            split(A, a, 0, 0);
+            split(B, e, 0, 0);
+            split(A, b, 0, newSize);
+            split(B, f, 0, newSize);
+            split(A, c, newSize, 0);
+            split(B, g, newSize, 0);
+            split(A, d, newSize, newSize);
+            split(B, h, newSize, newSize);
+           
+            int[][] p1 = classicMult(a, subtract(f, h));
+            int[][] p2 = classicMult(add(a, b), h);
+            int[][] p3 = classicMult(add(c, d), e);
+            int[][] p4 = classicMult(d, subtract(g, e));
+            int[][] p5 = classicMult(add(a, d), add(e, h));
+            int[][] p6 = classicMult(subtract(b, d), add(g, h));
+            int[][] p7 = classicMult(subtract(a, c), add(e, f));
+            int[][] outputa = add(p5, subtract(p4, add(p2, p6)));
+            int[][] outputb = add(p1, p2);
+            int[][] outputc = add(p3, p4);
+            int[][] outputd = subtract(add(p1, p5), subtract(p3, p7));
+
+            merge(outputa, output, 0, 0);
+            merge(outputb, output, 0, newSize);
+            merge(outputc, output, newSize, 0);
+            merge(outputd, output, newSize, newSize);
             
-    
         }
     
         return output;
