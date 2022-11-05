@@ -12,47 +12,40 @@ public class divideandconquer
                        {2, 0, -1, 0},
                        {9,1,6,-2}
                 };
-// int A[][] = { {0,1,6,3,4,5,5,5 },
-//                 {-2,8,7,1,3,4,5, 9},
-//                 {2, 0, -1, 0,3,5,6},
-//                 {-2,8,7,1,3,5,7,8},
-//                 {-2,8,7,1,3,4,5,6},
-//                 {-2,8,7,1,4,6,8,5},
-//                 {-2,8,7,1,5,7,3,2},
-//                 {9,1,6,-2,7,5,3,5}
-//               };
+int A2[][] = {   {0,1,6,3,4,5,5,5 },
+                {-2,8,7,1,3,4,5, 9},
+                {2, 0, -1, 0,3,5,6,4},
+                {-2,8,7,1,3,5,7,8},
+                {-2,8,7,1,3,4,5,6},
+                {-2,8,7,1,4,6,8,5},
+                {-2,8,7,1,5,7,3,2},
+                {9,1,6,-2,7,5,3,5}
+              };
 
-//     int B[][] = { {0,1,6,3,4,5,5,5 },
-//                   {-2,8,7,1,3,4,5, 9},
-//                   {2, 0, -1, 0,3,5,6},
-//                   {-2,8,7,1,3,5,7,8},
-//                   {-2,8,7,1,3,4,5,6},
-//                   {-2,8,7,1,4,6,8,5},
-//                   {-2,8,7,1,5,7,3,2},
-//                   {9,1,6,-2,7,5,3,5}
-//                 };
+    int B2[][] = { {0,1,6,3,4,5,5,5 },
+                  {-2,8,7,1,3,4,5, 9},
+                  {2, 0, -1, 0,3,5,6,2},
+                  {-2,8,4,1,3,5,7,8},
+                  {-2,8,4,1,3,4,5,6},
+                  {-2,8,4,1,4,6,8,5},
+                  {-2,8,40,1,5,7,3,2},
+                  {9,1,6,-2,7,5,3,5}
+                };
     
   
-    // int output[][]= new int[i][j];	
+    // int output[][]= new int[i][j];	                           
 
 /////////////tests////////////////
-    // multiplyMatric(A, B);
+   
+    int output[][] =  divideAndConquer2(A, B, 0, 0, 0, 0, A.length);
+    print(output);
+    System.out.println();
+    int output2[][] =  divideAndConquer2(A2, B2, 0, 0, 0, 0, A2.length);
+    print(output2);
 
-    // output = multiplyMatrices(A, B);
-    int output[][] =  divideAndConquer(A, B, 0, 0, 0, 0, A.length);
-    // print(output);
-    //  output=matrixMultiplication(A, B);
-     print(output);
     }
 ///////////////////////////////
 
-// public static int[][] matrixMultiplication(int[][] A, int[][] B){
-
-//     return  divideAndConquer(
-//             A, B, 0, 0, 
-//             0,0, A.length);
-
-// }
 
 
  ////////multiply method 1
@@ -63,16 +56,15 @@ public class divideandconquer
         // int aRow = 4;
         // int aCol = 4;
         // int bRow = 4;
-        int row = A.length;
-        int col = B.length;
-        int[][] output = new int[row][col];
+        int n = A.length;
+        int[][] output = new int[n][n];
 
-        for (int i = 0; i < row; i++) 
+        for (int i = 0; i < n; i++) 
         {
-            for (int j = 0; j < col; j++) 
+            for (int j = 0; j < n; j++) 
             {
                 output[i][j] = 0;
-                for (int k = 0; k < row; k++) 
+                for (int k = 0; k < n; k++) 
                 {  
                     output[i][j] += A[i][k] * B[k][j];
                 }
@@ -99,40 +91,43 @@ public class divideandconquer
     }
     /////////////
 
-
-
-    //////////////divide and conquer approach
-    public static int[][]  divideAndConquer(int A[][], int B[][], int rowA, int colA, 
-    int rowB, int colB, int n)
+public static int[][]  divideAndConquer2(int A[][], int B[][], int rowA, int colA, 
+                                                        int rowB, int colB, int n)
     {
         // n = A.length;
         int C[][]= new int[n][n];
-        if (n==4)               //base case
+        if (n==1)               //base case
         {
-            C = multiplyMatric(A, B);
+            // C = multiplyMatric(A, B);
+            C[0][0]= A[rowA][colA]*B[rowB][colB];
         }
 
         else
         {
             int nhalf = n/2;
-            combinedMatrix(C, divideAndConquer(A, B, rowA, colA, rowB, colB, nhalf),
-                    divideAndConquer(A, B, rowA, colA + nhalf, rowB + nhalf, colB, nhalf),0,0);
-            
-            combinedMatrix(C, divideAndConquer(A, B, rowA, colA, rowB, colB, nhalf),
-                    divideAndConquer(A, B, rowA, colA + nhalf, rowB, colB+nhalf, nhalf), 0, nhalf);
+            int[][] c11 = divideAndConquer2(A, B, rowA, colA, rowB, colB, nhalf);
+            int[][] c1a = divideAndConquer2(A, B, rowA, colA + nhalf, rowB + nhalf, colB, nhalf); ///,0 ,0
+            combinedMatrix(C, c11, c1a, 0, 0);
 
-            combinedMatrix(C, divideAndConquer(A, B, rowA + nhalf, colA, rowB, colB, nhalf),
-                    divideAndConquer(A, B, rowA + nhalf, colA + nhalf, rowB + nhalf, colB, nhalf), nhalf, 0);
+            int[][] c21 =divideAndConquer2(A, B, rowA, colA, rowB, colB, nhalf);
+            int[][] c2a =divideAndConquer2(A, B, rowA, colA + nhalf, rowB, colB+nhalf, nhalf); //0, nhalf);
+            combinedMatrix(C, c21, c2a, 0, nhalf);
 
-            combinedMatrix(C, divideAndConquer(A, B, rowA + nhalf, colA, rowB, colB+ nhalf, nhalf),
-                    divideAndConquer(A, B, rowA + nhalf, colA+ nhalf, rowB+ nhalf, colB+ nhalf, nhalf), nhalf, nhalf);
+            int[][] c12 =divideAndConquer2(A, B, rowA + nhalf, colA, rowB, colB, nhalf);
+            int[][] c12a =divideAndConquer2(A, B, rowA + nhalf, colA + nhalf, rowB + nhalf, colB, nhalf);// nhalf, 0);
+            combinedMatrix(C, c12, c12a, nhalf, 0);
+
+
+            int[][] c22 =divideAndConquer2(A, B, rowA + nhalf, colA, rowB, colB+ nhalf, nhalf);
+            int[][] c22a =divideAndConquer2(A, B, rowA + nhalf, colA+ nhalf, rowB+ nhalf, colB+ nhalf, nhalf);// nhalf, nhalf);
+            combinedMatrix(C, c22, c22a, nhalf, nhalf);
         }
         return C;
     
     }
     private static void combinedMatrix(int C[][], int A[][], int B[][], int rowC, int colC)
     {
-        int n = B.length;
+        int n = A.length;
         for (int i = 0; i < n; i++) 
         {
             for (int j = 0; j < n; j++) 
@@ -141,29 +136,6 @@ public class divideandconquer
             }
         }
     }
-/////////////////
 
 
-// multiply method 2
-///////////////
-
-    static int[][] multiplyMatrices(int[][] firstMatrix, int[][] secondMatrix) {
-        int[][] result = new int[firstMatrix.length][secondMatrix[0].length];
-    
-        for (int row = 0; row < result.length; row++) {
-            for (int col = 0; col < result[row].length; col++) {
-                result[row][col] = multiplyMatricesCell(firstMatrix, secondMatrix, row, col);
-            }
-        }
-    
-        return result;
-    }
-    static int multiplyMatricesCell(int[][] firstMatrix, int[][] secondMatrix, int row, int col) {
-       int  cell = 0;
-        for (int i = 0; i < secondMatrix.length; i++) {
-            cell += firstMatrix[row][i] * secondMatrix[i][col];
-        }
-        return cell;
-    }
-////////////////////
 }
