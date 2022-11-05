@@ -28,6 +28,15 @@ class Matrix {
         endTime = (int) System.currentTimeMillis();
         runTime = endTime - startTime;
         System.out.println("Runtime: " + runTime + " milliseconds");
+        
+         ///////////////////////////////////////DIVIDEANDCONQUER////////////////////////////
+        startTime = (int) System.currentTimeMillis();
+        System.out.println("Divide and Conquer Multiplication: ");
+        output = m.divideAndConquer2(A, B, 0, 0, 0, 0, size);
+        endTime = (int) System.currentTimeMillis();
+        runTime = endTime - startTime;
+        System.out.println("Runtime: " + runTime + " milliseconds");
+
 
     }
     
@@ -159,5 +168,52 @@ class Matrix {
         }
         return arrayToGenerate;
     }
+    
+    //////////////////////divideandconquer///////////////////
+    public int[][]  divideAndConquer2(int A[][], int B[][], int rowA, int colA, 
+                    int rowB, int colB, int n)
+    {   
+        // n = A.length;
+        int C[][]= new int[n][n];
+        if (n==1)               //base case
+            {
+                // C = classicMult(A, B);
+                C[0][0]= A[rowA][colA]*B[rowB][colB];
+            }
+
+        else
+            {
+                int nhalf = n/2;
+                int[][] c11 = divideAndConquer2(A, B, rowA, colA, rowB, colB, nhalf);
+                int[][] c1a = divideAndConquer2(A, B, rowA, colA + nhalf, rowB + nhalf, colB, nhalf); ///,0 ,0
+                combinedMatrix(C, c11, c1a, 0, 0);
+
+                int[][] c21 =divideAndConquer2(A, B, rowA, colA, rowB, colB, nhalf);
+                int[][] c2a =divideAndConquer2(A, B, rowA, colA + nhalf, rowB, colB+nhalf, nhalf); //0, nhalf);
+                combinedMatrix(C, c21, c2a, 0, nhalf);
+
+                int[][] c12 =divideAndConquer2(A, B, rowA + nhalf, colA, rowB, colB, nhalf);
+                int[][] c12a =divideAndConquer2(A, B, rowA + nhalf, colA + nhalf, rowB + nhalf, colB, nhalf);// nhalf, 0);
+                combinedMatrix(C, c12, c12a, nhalf, 0);
+
+
+                int[][] c22 =divideAndConquer2(A, B, rowA + nhalf, colA, rowB, colB+ nhalf, nhalf);
+                int[][] c22a =divideAndConquer2(A, B, rowA + nhalf, colA+ nhalf, rowB+ nhalf, colB+ nhalf, nhalf);// nhalf, nhalf);
+                combinedMatrix(C, c22, c22a, nhalf, nhalf);
+            }
+        return C;
+
+    }
+private void combinedMatrix(int C[][], int A[][], int B[][], int rowC, int colC)
+    {
+        int n = A.length;
+        for (int i = 0; i < n; i++) 
+        {
+            for (int j = 0; j < n; j++) 
+            {
+                C[i+rowC][j+colC] = A[i][j] + B[i][j];
+            }
+        }
+    }   
 }
 
