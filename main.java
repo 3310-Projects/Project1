@@ -182,23 +182,23 @@ class Matrix {
 
         else
             {
-                int nhalf = n/2;
-                int[][] c11 = divideAndConquer2(A, B, rowA, colA, rowB, colB, nhalf);
-                int[][] c1a = divideAndConquer2(A, B, rowA, colA + nhalf, rowB + nhalf, colB, nhalf); ///,0 ,0
-                combinedMatrix(C, c11, c1a, 0, 0);
+                    int nhalf = n/2;
+            int[][] a = divideAndConquer2(A, B, rowA, colA, rowB, colB, nhalf);
+            int[][] b = divideAndConquer2(A, B, rowA, colA + nhalf, rowB + nhalf, colB, nhalf); 
+            combinedMatrix(C, a, b, 0, 0);
 
-                int[][] c21 =divideAndConquer2(A, B, rowA, colA, rowB, colB, nhalf);
-                int[][] c2a =divideAndConquer2(A, B, rowA, colA + nhalf, rowB, colB+nhalf, nhalf); //0, nhalf);
-                combinedMatrix(C, c21, c2a, 0, nhalf);
+            int[][] c =divideAndConquer2(A, B, rowA, colA, rowB, colB + nhalf, nhalf);
+            int[][] d =divideAndConquer2(A, B, rowA, colA + nhalf, rowB+nhalf, colB+nhalf, nhalf);
+            combinedMatrix(C, c, d, 0, nhalf);
 
-                int[][] c12 =divideAndConquer2(A, B, rowA + nhalf, colA, rowB, colB, nhalf);
-                int[][] c12a =divideAndConquer2(A, B, rowA + nhalf, colA + nhalf, rowB + nhalf, colB, nhalf);// nhalf, 0);
-                combinedMatrix(C, c12, c12a, nhalf, 0);
+            int[][] e =divideAndConquer2(A, B, rowA + nhalf, colA, rowB, colB, nhalf);
+            int[][] f =divideAndConquer2(A, B, rowA + nhalf, colA + nhalf, rowB + nhalf, colB, nhalf);
+            combinedMatrix(C, e, f, nhalf, 0);
 
 
-                int[][] c22 =divideAndConquer2(A, B, rowA + nhalf, colA, rowB, colB+ nhalf, nhalf);
-                int[][] c22a =divideAndConquer2(A, B, rowA + nhalf, colA+ nhalf, rowB+ nhalf, colB+ nhalf, nhalf);// nhalf, nhalf);
-                combinedMatrix(C, c22, c22a, nhalf, nhalf);
+            int[][] g =divideAndConquer2(A, B, rowA + nhalf, colA, rowB, colB+ nhalf, nhalf);
+            int[][] h =divideAndConquer2(A, B, rowA + nhalf, colA+ nhalf, rowB+ nhalf, colB+ nhalf, nhalf);
+            combinedMatrix(C, g, h, nhalf, nhalf);
             }
         return C;
 
