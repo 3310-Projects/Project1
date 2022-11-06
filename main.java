@@ -5,38 +5,98 @@ class Matrix {
     public static void main(String[] args) {
         Matrix m = new Matrix();
         
-        int size = 512;                                 ////////////////CHANGE SIZE
+        int size = 32;                                 ////////////////CHANGE SIZE
         int outputSize = size;                   
     
         
         int [][] A = m.generateArray(size);   
         int [][] B = m.generateArray(size);      
-        int startTime, endTime, runTime;
+        int [][] C = m.generateArray(size);   
+        int [][] D = m.generateArray(size);      
+        int [][] E = m.generateArray(size);   
+        int [][] F = m.generateArray(size);      
+   
+        int startTime, endTime, runTime1, runTime2, runTime3, runTime4, runTime5, average;
         int [][] output = new int[outputSize][outputSize];
-        ///////////////////////////////////////STRASSEN ////////////////////////////
-        startTime = (int) System.currentTimeMillis();
-        System.out.println("Strassen Multiplication: ");
-        output = m.strassenMult(A, B, size);  
-        endTime = (int) System.currentTimeMillis();
-        runTime = endTime - startTime;
-        System.out.println("Runtime: " + runTime + " milliseconds");
+
 
         ///////////////////////////////////////////NAIVE///////////////////////////////////
-        startTime = (int) System.currentTimeMillis();
+        
         System.out.println("Naive Multiplication: ");
+        startTime = (int) System.currentTimeMillis();
         output = m.classicMult(A, B);
         endTime = (int) System.currentTimeMillis();
-        runTime = endTime - startTime;
-        System.out.println("Runtime: " + runTime + " milliseconds");
+        runTime1 = endTime - startTime;
+        startTime = (int) System.currentTimeMillis();
+        output = m.classicMult(C, D);
+        endTime = (int) System.currentTimeMillis();
+        runTime2 = endTime - startTime;
+        startTime = (int) System.currentTimeMillis();
+        output = m.classicMult(E, F);
+        endTime = (int) System.currentTimeMillis();
+        runTime3 = endTime - startTime;
+        startTime = (int) System.currentTimeMillis();
+        output = m.classicMult(A, C);
+        endTime = (int) System.currentTimeMillis();
+        runTime4 = endTime - startTime;
+        startTime = (int) System.currentTimeMillis();
+        output = m.classicMult(A, D);
+        endTime = (int) System.currentTimeMillis();
+        runTime5 = endTime - startTime;
+        
+        
+        
+        System.out.println("Runtimes: " + runTime1 + " " + runTime2 + " " + runTime3 + " " + runTime4 + " " + runTime5 + " Average: " + (double)(runTime1+runTime2+runTime3+runTime4+runTime5)/5);  
         
          ///////////////////////////////////////DIVIDEANDCONQUER////////////////////////////
-        startTime = (int) System.currentTimeMillis();
+        
+         startTime = (int) System.currentTimeMillis();
         System.out.println("Divide and Conquer Multiplication: ");
-        output = m.divideAndConquer2(A, B, 0, 0, 0, 0, size);
+        startTime = (int) System.currentTimeMillis();
+        output = m.strassenMult(A, B, size);output = m.divideAndConquer2(A, B, 0, 0, 0, 0, size);endTime = (int) System.currentTimeMillis();
+        runTime1 = endTime - startTime;
+        startTime = (int) System.currentTimeMillis();
+        output = m.divideAndConquer2(C, D, 0, 0, 0, 0, size);
         endTime = (int) System.currentTimeMillis();
-        runTime = endTime - startTime;
-        System.out.println("Runtime: " + runTime + " milliseconds");
-
+        runTime2 = endTime - startTime;
+        startTime = (int) System.currentTimeMillis();
+        output = m.divideAndConquer2(E, F, 0, 0, 0, 0, size);
+        endTime = (int) System.currentTimeMillis();
+        runTime3 = endTime - startTime;
+        startTime = (int) System.currentTimeMillis();
+        output = m.divideAndConquer2(A, C, 0, 0, 0, 0, size);
+        endTime = (int) System.currentTimeMillis();
+        runTime4 = endTime - startTime;
+        startTime = (int) System.currentTimeMillis();
+        output = m.divideAndConquer2(A, D, 0, 0, 0, 0, size);
+        endTime = (int) System.currentTimeMillis();
+        runTime5 = endTime - startTime;
+        
+        System.out.println("Runtimes: " + runTime1 + " " + runTime2 + " " + runTime3 + " " + runTime4 + " " + runTime5 + " Average: " + (double)(runTime1+runTime2+runTime3+runTime4+runTime5)/5);  
+        
+        System.out.println("Strassen Multiplication: ");
+        startTime = (int) System.currentTimeMillis();
+        output = m.strassenMult(A, B, size);
+        endTime = (int) System.currentTimeMillis();
+        runTime1 = endTime - startTime;
+        startTime = (int) System.currentTimeMillis();
+        output = m.strassenMult(C, D, size);
+        endTime = (int) System.currentTimeMillis();
+        runTime2 = endTime - startTime;
+        startTime = (int) System.currentTimeMillis();
+        output = m.strassenMult(E, F, size);
+        endTime = (int) System.currentTimeMillis();
+        runTime3 = endTime - startTime;
+        startTime = (int) System.currentTimeMillis();
+        output = m.strassenMult(A, C, size);
+        endTime = (int) System.currentTimeMillis();
+        runTime4 = endTime - startTime;
+        startTime = (int) System.currentTimeMillis();
+        output = m.strassenMult(A, D, size);
+        endTime = (int) System.currentTimeMillis();
+        runTime5 = endTime - startTime;
+        
+        System.out.println("Runtimes: " + runTime1 + " " + runTime2 + " " + runTime3 + " " + runTime4 + " " + runTime5 + " Average: " + (double)(runTime1+runTime2+runTime3+runTime4+runTime5)/5);  
 
     }
     
@@ -215,4 +275,3 @@ private void combinedMatrix(int C[][], int A[][], int B[][], int rowC, int colC)
         }
     }   
 }
-
