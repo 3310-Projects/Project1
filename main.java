@@ -73,7 +73,6 @@ class Matrix {
             int[][] p3 = classicMult(add(c, d), e);
             int[][] p4 = classicMult(d, subtract(g, e));
             int[][] p5 = classicMult(add(a, d), add(e, h));
-            int[][] p6 = classicMult(subtract(b, d), add(g, h));
             int[][] p7 = classicMult(subtract(a, c), add(e, f));
             int[][] outputa = add(classicMult(a,e), classicMult(b,g));
             int[][] outputb = add(p1, p2);
