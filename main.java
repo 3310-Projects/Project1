@@ -78,7 +78,7 @@ class Matrix {
             int[][] outputa = add(p5, subtract(p4, add(p2, p6)));
             int[][] outputb = add(p1, p2);
             int[][] outputc = add(p3, p4);
-            int[][] outputd = subtract(add(p1, p5), subtract(p3, p7));
+            int[][] outputd = subtract(add(p1, p5), add(p3, p7));
 
             merge(outputa, output, 0, 0);
             merge(outputb, output, 0, newSize);
