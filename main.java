@@ -19,7 +19,6 @@ class Matrix {
         int startTime, endTime, runTime1, runTime2, runTime3, runTime4, runTime5;
         int [][] output = new int[outputSize][outputSize];
      
-         int[][] testOutput = new int[size][size];
         ///////////////////////////////////////////NAIVE///////////////////////////////////
         
         System.out.println("Naive Multiplication: ");
@@ -100,7 +99,60 @@ class Matrix {
     
        
     }
+
+    public int[][] classicMult(int [][] A, int [][] B){
+        int n = A.length;
+        int[][] productArray  = new int[n][n];
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++) {
+                for(int k = 0; k < n; k++){
+                    productArray[i][j] += A[i][k] * B[k][j];     
+                }
+            }
+        }
+        return productArray;  
+    }
     
+    public int[][] divideandconquer(int[][]A, int[][]B, int size){
+        int[][] output = new int[size][size];
+        if(size == 1){
+            output[0][0] = A[0][0] * B[0][0];
+        }else{
+            int newSize = size/2;
+            
+            int[][] a = new int[newSize][newSize];
+            int[][] b = new int[newSize][newSize];
+            int[][] c = new int[newSize][newSize];
+            int[][] d = new int[newSize][newSize];
+            int[][] e = new int[newSize][newSize];
+            int[][] f = new int[newSize][newSize];
+            int[][] g = new int[newSize][newSize];
+            int[][] h = new int[newSize][newSize];
+  
+
+            split(A, a, 0, 0);
+            split(B, e, 0, 0);
+            split(A, b, 0, newSize);
+            split(B, f, 0, newSize);
+            split(A, c, newSize, 0);
+            split(B, g, newSize, 0);
+            split(A, d, newSize, newSize);
+            split(B, h, newSize, newSize);
+       
+            int[][] outputa = add(classicMult(a,e), classicMult(b,g));
+            int[][] outputb = add(classicMult(a,f), classicMult(b,h));
+            int[][] outputc = add(classicMult(c,e), classicMult(d,g));
+            int[][] outputd = add(classicMult(c,f), classicMult(d,h));
+
+            merge(outputa, output, 0, 0);
+            merge(outputb, output, 0, newSize);
+            merge(outputc, output, newSize, 0);
+            merge(outputd, output, newSize, newSize);
+            
+        }
+    
+        return output;
+    }
     
     
     public int[][] strassenMult(int[][]A, int[][]B, int size){
@@ -149,18 +201,7 @@ class Matrix {
     
         return output;
     }
-    public int[][] classicMult(int [][] A, int [][] B){
-        int n = A.length;
-        int[][] productArray  = new int[n][n];
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < n; j++) {
-                for(int k = 0; k < n; k++){
-                    productArray[i][j] += A[i][k] * B[k][j];     
-                }
-            }
-        }
-        return productArray;  
-    }
+   
     
     public int[][] add(int[][] A, int[][] B){
         int n = A.length;
@@ -231,46 +272,7 @@ class Matrix {
     
   
 
-    public int[][] divideandconquer(int[][]A, int[][]B, int size){
-        int[][] output = new int[size][size];
-        if(size == 1){
-            output[0][0] = A[0][0] * B[0][0];
-        }else{
-            int newSize = size/2;
-            
-            int[][] a = new int[newSize][newSize];
-            int[][] b = new int[newSize][newSize];
-            int[][] c = new int[newSize][newSize];
-            int[][] d = new int[newSize][newSize];
-            int[][] e = new int[newSize][newSize];
-            int[][] f = new int[newSize][newSize];
-            int[][] g = new int[newSize][newSize];
-            int[][] h = new int[newSize][newSize];
-  
 
-            split(A, a, 0, 0);
-            split(B, e, 0, 0);
-            split(A, b, 0, newSize);
-            split(B, f, 0, newSize);
-            split(A, c, newSize, 0);
-            split(B, g, newSize, 0);
-            split(A, d, newSize, newSize);
-            split(B, h, newSize, newSize);
-       
-            int[][] outputa = add(classicMult(a,e), classicMult(b,g));
-            int[][] outputb = add(classicMult(a,f), classicMult(b,h));
-            int[][] outputc = add(classicMult(c,e), classicMult(d,g));
-            int[][] outputd = add(classicMult(c,f), classicMult(d,h));
-
-            merge(outputa, output, 0, 0);
-            merge(outputb, output, 0, newSize);
-            merge(outputc, output, newSize, 0);
-            merge(outputd, output, newSize, newSize);
-            
-        }
-    
-        return output;
-    }
 
 
 }
