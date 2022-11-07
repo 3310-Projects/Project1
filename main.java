@@ -1,11 +1,11 @@
 import java.lang.*;
 class Matrix {
-    public int size = 16;
+    public int size = 4;
     
     public static void main(String[] args) {
         Matrix m = new Matrix();
         
-        int size = 512;                                 ////////////////CHANGE SIZE
+        int size = 768;                                 ////////////////CHANGE SIZE
         int outputSize = size;                   
     
         
@@ -18,8 +18,8 @@ class Matrix {
    
         int startTime, endTime, runTime1, runTime2, runTime3, runTime4, runTime5;
         int [][] output = new int[outputSize][outputSize];
-
-
+     
+         int[][] testOutput = new int[size][size];
         ///////////////////////////////////////////NAIVE///////////////////////////////////
         
         System.out.println("Naive Multiplication: ");
@@ -48,52 +48,26 @@ class Matrix {
         
         System.out.println("Runtimes: " + runTime1 + " " + runTime2 + " " + runTime3 + " " + runTime4 + " " + runTime5 + " Average: " + (double)(runTime1+runTime2+runTime3+runTime4+runTime5)/5);  
         
-         ///////////////////////////////////////DIVIDEANDCONQUER////////////////////////////
-      /*  
-         startTime = (int) System.currentTimeMillis();
-        System.out.println("Divide and Conquer Multiplication: ");
-        startTime = (int) System.currentTimeMillis();
-        output = m.strassenMult(A, B, size);output = m.divideAndConquer2(A, B, 0, 0, 0, 0, size);endTime = (int) System.currentTimeMillis();
-        runTime1 = endTime - startTime;
-        startTime = (int) System.currentTimeMillis();
-        output = m.divideAndConquer2(C, D, 0, 0, 0, 0, size);
-        endTime = (int) System.currentTimeMillis();
-        runTime2 = endTime - startTime;
-        startTime = (int) System.currentTimeMillis();
-        output = m.divideAndConquer2(E, F, 0, 0, 0, 0, size);
-        endTime = (int) System.currentTimeMillis();
-        runTime3 = endTime - startTime;
-        startTime = (int) System.currentTimeMillis();
-        output = m.divideAndConquer2(A, C, 0, 0, 0, 0, size);
-        endTime = (int) System.currentTimeMillis();
-        runTime4 = endTime - startTime;
-        startTime = (int) System.currentTimeMillis();
-        output = m.divideAndConquer2(A, D, 0, 0, 0, 0, size);
-        endTime = (int) System.currentTimeMillis();
-        runTime5 = endTime - startTime;
-        
-        System.out.println("Runtimes: " + runTime1 + " " + runTime2 + " " + runTime3 + " " + runTime4 + " " + runTime5 + " Average: " + (double)(runTime1+runTime2+runTime3+runTime4+runTime5)/5);  
-        */
 
         System.out.println("New Divide and Conquer Multiplication: ");
         startTime = (int) System.currentTimeMillis();
-        output = m.divideandconquerStrassen(A, B, size);
+        output = m.divideandconquer(A, B, size);
         endTime = (int) System.currentTimeMillis();
         runTime1 = endTime - startTime;
         startTime = (int) System.currentTimeMillis();
-        output = m.divideandconquerStrassen(C, D, size);
+        output = m.divideandconquer(C, D, size);
         endTime = (int) System.currentTimeMillis();
         runTime2 = endTime - startTime;
         startTime = (int) System.currentTimeMillis();
-        output = m.divideandconquerStrassen(E, F, size);
+        output = m.divideandconquer(E, F, size);
         endTime = (int) System.currentTimeMillis();
         runTime3 = endTime - startTime;
         startTime = (int) System.currentTimeMillis();
-        output = m.divideandconquerStrassen(A, C, size);
+        output = m.divideandconquer(A, C, size);
         endTime = (int) System.currentTimeMillis();
         runTime4 = endTime - startTime;
         startTime = (int) System.currentTimeMillis();
-        output = m.divideandconquerStrassen(A, D, size);
+        output = m.divideandconquer(A, D, size);
         endTime = (int) System.currentTimeMillis();
         runTime5 = endTime - startTime;
         
@@ -123,8 +97,7 @@ class Matrix {
         runTime5 = endTime - startTime;
         
         System.out.println("Runtimes: " + runTime1 + " " + runTime2 + " " + runTime3 + " " + runTime4 + " " + runTime5 + " Average: " + (double)(runTime1+runTime2+runTime3+runTime4+runTime5)/5);  
-
-
+    
        
     }
     
@@ -256,53 +229,9 @@ class Matrix {
         return arrayToGenerate;
     }
     
-    //////////////////////divideandconquer///////////////////
-    public int[][]  divideAndConquer2(int A[][], int B[][], int rowA, int colA, 
-                    int rowB, int colB, int n)
-    {   
-        // n = A.length;
-        int C[][]= new int[n][n];
-        if (n==1)               //base case
-            {
-                // C = classicMult(A, B);
-                C[0][0]= A[rowA][colA]*B[rowB][colB];
-            }
+  
 
-        else
-            {
-                    int nhalf = n/2;
-            int[][] a = divideAndConquer2(A, B, rowA, colA, rowB, colB, nhalf);
-            int[][] b = divideAndConquer2(A, B, rowA, colA + nhalf, rowB + nhalf, colB, nhalf); 
-            combinedMatrix(C, a, b, 0, 0);
-
-            int[][] c =divideAndConquer2(A, B, rowA, colA, rowB, colB + nhalf, nhalf);
-            int[][] d =divideAndConquer2(A, B, rowA, colA + nhalf, rowB+nhalf, colB+nhalf, nhalf);
-            combinedMatrix(C, c, d, 0, nhalf);
-
-            int[][] e =divideAndConquer2(A, B, rowA + nhalf, colA, rowB, colB, nhalf);
-            int[][] f =divideAndConquer2(A, B, rowA + nhalf, colA + nhalf, rowB + nhalf, colB, nhalf);
-            combinedMatrix(C, e, f, nhalf, 0);
-
-
-            int[][] g =divideAndConquer2(A, B, rowA + nhalf, colA, rowB, colB+ nhalf, nhalf);
-            int[][] h =divideAndConquer2(A, B, rowA + nhalf, colA+ nhalf, rowB+ nhalf, colB+ nhalf, nhalf);
-            combinedMatrix(C, g, h, nhalf, nhalf);
-            }
-        return C;
-
-    }
-private void combinedMatrix(int C[][], int A[][], int B[][], int rowC, int colC)
-    {
-        int n = A.length;
-        for (int i = 0; i < n; i++) 
-        {
-            for (int j = 0; j < n; j++) 
-            {
-                C[i+rowC][j+colC] = A[i][j] + B[i][j];
-            }
-        }
-    }   
-    public int[][] divideandconquerStrassen(int[][]A, int[][]B, int size){
+    public int[][] divideandconquer(int[][]A, int[][]B, int size){
         int[][] output = new int[size][size];
         if(size == 1){
             output[0][0] = A[0][0] * B[0][0];
