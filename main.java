@@ -1,211 +1,278 @@
 import java.lang.*;
-import java.util.*;
-import java.io.*;
-
-public class ShortestPath {
-    public static int inf=99999;
-    int length;
-    // public int size = 4;
-    public static void main(String args[]){
-
-        ShortestPath sp = new ShortestPath();
-        ShortestPath fw = new ShortestPath();
-
-      int matrixGraph[][] = sp.generateRandomMatrix(512, 30); // Change first argument to size n, second to percent infinity (incremenets of 10)
+class Matrix {
+    public int size = 4;
     
-
-      
-        int startTime, endTime, runTime1, runTime2, runTime3, runTime4, runTime5;
-
-        startTime = (int) System.currentTimeMillis();
-        sp.dijkstra(matrixGraph, 6);
-        endTime = (int) System.currentTimeMillis();
-        runTime1 = endTime - startTime;
-        startTime = (int) System.currentTimeMillis();
-        sp.dijkstra(matrixGraph, 6);
-        endTime = (int) System.currentTimeMillis();
-        runTime2 = endTime - startTime;
-        startTime = (int) System.currentTimeMillis();
-        sp.dijkstra(matrixGraph, 6);
-        endTime = (int) System.currentTimeMillis();
-        runTime3 = endTime - startTime;
-        startTime = (int) System.currentTimeMillis();
-        sp.dijkstra(matrixGraph, 6);
-        endTime = (int) System.currentTimeMillis();
-        runTime4 = endTime - startTime;
-        startTime = (int) System.currentTimeMillis();
-        sp.dijkstra(matrixGraph, 6);
-        endTime = (int) System.currentTimeMillis();
-        runTime5 = endTime - startTime;
-       
+    public static void main(String[] args) {
+        Matrix m = new Matrix();
         
-        
-        
-        System.out.println("Dijkstra Runtimes: " + runTime1 + " " + runTime2 + " " + runTime3 + " " + runTime4 + " " + runTime5 + " Average: " + (double)(runTime1+runTime2+runTime3+runTime4+runTime5)/5);  
-
-        //////////floyd Warshall runtime
-
-        startTime = (int) System.currentTimeMillis();
-        fw.floydWarshall(matrixGraph);
-        endTime = (int) System.currentTimeMillis();
-        runTime1 = endTime - startTime;
-        startTime = (int) System.currentTimeMillis();
-        fw.floydWarshall(matrixGraph);
-        endTime = (int) System.currentTimeMillis();
-        runTime2 = endTime - startTime;
-        startTime = (int) System.currentTimeMillis();
-        fw.floydWarshall(matrixGraph);
-        endTime = (int) System.currentTimeMillis();
-        runTime3 = endTime - startTime;
-        startTime = (int) System.currentTimeMillis();
-        fw.floydWarshall(matrixGraph);
-        endTime = (int) System.currentTimeMillis();
-        runTime4 = endTime - startTime;
-        startTime = (int) System.currentTimeMillis();
-        fw.floydWarshall(matrixGraph);
-        endTime = (int) System.currentTimeMillis();
-        runTime5 = endTime - startTime;
-        
+        int size = 768;                                 ////////////////CHANGE SIZE
+        int outputSize = size;                   
     
-    System.out.println("Floyd Warshall Runtimes: " + runTime1 + " " + runTime2 + " " + runTime3 + " " + runTime4 + " " + runTime5 + " Average: " + (double)(runTime1+runTime2+runTime3+runTime4+runTime5)/5);  
-
         
-        
-
+        int [][] A = m.generateArray(size);   
+        int [][] B = m.generateArray(size);      
+        int [][] C = m.generateArray(size);   
+        int [][] D = m.generateArray(size);      
+        int [][] E = m.generateArray(size);   
+        int [][] F = m.generateArray(size);      
    
+        int startTime, endTime, runTime1, runTime2, runTime3, runTime4, runTime5;
+        int [][] output = new int[outputSize][outputSize];
+     
+        ///////////////////////////////////////////NAIVE///////////////////////////////////
+        
+        System.out.println("Naive Multiplication: ");
+        startTime = (int) System.currentTimeMillis();
+        output = m.classicMult(A, B);
+        endTime = (int) System.currentTimeMillis();
+        runTime1 = endTime - startTime;
+        startTime = (int) System.currentTimeMillis();
+        output = m.classicMult(C, D);
+        endTime = (int) System.currentTimeMillis();
+        runTime2 = endTime - startTime;
+        startTime = (int) System.currentTimeMillis();
+        output = m.classicMult(E, F);
+        endTime = (int) System.currentTimeMillis();
+        runTime3 = endTime - startTime;
+        startTime = (int) System.currentTimeMillis();
+        output = m.classicMult(A, C);
+        endTime = (int) System.currentTimeMillis();
+        runTime4 = endTime - startTime;
+        startTime = (int) System.currentTimeMillis();
+        output = m.classicMult(A, D);
+        endTime = (int) System.currentTimeMillis();
+        runTime5 = endTime - startTime;
+        
+        
+        
+        System.out.println("Runtimes: " + runTime1 + " " + runTime2 + " " + runTime3 + " " + runTime4 + " " + runTime5 + " Average: " + (double)(runTime1+runTime2+runTime3+runTime4+runTime5)/5);  
+        
+
+        System.out.println("New Divide and Conquer Multiplication: ");
+        startTime = (int) System.currentTimeMillis();
+        output = m.divideandconquer(A, B, size);
+        endTime = (int) System.currentTimeMillis();
+        runTime1 = endTime - startTime;
+        startTime = (int) System.currentTimeMillis();
+        output = m.divideandconquer(C, D, size);
+        endTime = (int) System.currentTimeMillis();
+        runTime2 = endTime - startTime;
+        startTime = (int) System.currentTimeMillis();
+        output = m.divideandconquer(E, F, size);
+        endTime = (int) System.currentTimeMillis();
+        runTime3 = endTime - startTime;
+        startTime = (int) System.currentTimeMillis();
+        output = m.divideandconquer(A, C, size);
+        endTime = (int) System.currentTimeMillis();
+        runTime4 = endTime - startTime;
+        startTime = (int) System.currentTimeMillis();
+        output = m.divideandconquer(A, D, size);
+        endTime = (int) System.currentTimeMillis();
+        runTime5 = endTime - startTime;
+        
+        System.out.println("Runtimes: " + runTime1 + " " + runTime2 + " " + runTime3 + " " + runTime4 + " " + runTime5 + " Average: " + (double)(runTime1+runTime2+runTime3+runTime4+runTime5)/5);  
+
+
+        System.out.println("Strassen Multiplication: ");
+        startTime = (int) System.currentTimeMillis();
+        output = m.strassenMult(A, B, size);
+        endTime = (int) System.currentTimeMillis();
+        runTime1 = endTime - startTime;
+        startTime = (int) System.currentTimeMillis();
+        output = m.strassenMult(C, D, size);
+        endTime = (int) System.currentTimeMillis();
+        runTime2 = endTime - startTime;
+        startTime = (int) System.currentTimeMillis();
+        output = m.strassenMult(E, F, size);
+        endTime = (int) System.currentTimeMillis();
+        runTime3 = endTime - startTime;
+        startTime = (int) System.currentTimeMillis();
+        output = m.strassenMult(A, C, size);
+        endTime = (int) System.currentTimeMillis();
+        runTime4 = endTime - startTime;
+        startTime = (int) System.currentTimeMillis();
+        output = m.strassenMult(A, D, size);
+        endTime = (int) System.currentTimeMillis();
+        runTime5 = endTime - startTime;
+        
+        System.out.println("Runtimes: " + runTime1 + " " + runTime2 + " " + runTime3 + " " + runTime4 + " " + runTime5 + " Average: " + (double)(runTime1+runTime2+runTime3+runTime4+runTime5)/5);  
+    
+       
     }
-    public void dijkstra(int graph[][], int sourceNode){
-        length = graph.length;
-        int distance[] = new int[length];
-        Boolean previous[] = new Boolean[length];
-        for(int i = 0; i < length; i ++){
-            distance[i] = inf;
-            previous[i] = false;
-        }
-        distance[sourceNode] = 0;
-        for (int i = 0; i < length - 1; i++){
-            int k = minimumDistance(distance, previous);
-            previous[k] = true;
-            for (int j = 0; j < length - 1; j++)
-                if(!previous[j] && graph[k][j] != 0 && distance[k] + graph[k][j] < distance[j] && distance[k] != inf ){
-                    distance[j] = distance[k] + graph[k][j];
+
+    public int[][] classicMult(int [][] A, int [][] B){
+        int n = A.length;
+        int[][] productArray  = new int[n][n];
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++) {
+                for(int k = 0; k < n; k++){
+                    productArray[i][j] += A[i][k] * B[k][j];     
                 }
-        }
-     //   printArray(distance);
-    }
-    public int minimumDistance(int distance[], Boolean previous[]){
-        int minimum = inf;
-        int minimum_index = -1;
-        for(int i = 0; i < length; i++){
-            if(previous[i] == false && distance[i] <= minimum){
-                minimum = distance[i];
-                minimum_index = i;
             }
         }
-        return minimum_index;
+        return productArray;  
     }
-    void printArray(int distance[])
-    {
-        System.out.print("Vertex:   ");
-        for (int i = 0; i < length; i++){
-            System.out.print(((char)(i+65)) + " ");
-          
+    
+    public int[][] divideandconquer(int[][]A, int[][]B, int size){
+        int[][] output = new int[size][size];
+        if(size == 1){
+            output[0][0] = A[0][0] * B[0][0];
+        }else{
+            int newSize = size/2;
+            
+            int[][] a = new int[newSize][newSize];
+            int[][] b = new int[newSize][newSize];
+            int[][] c = new int[newSize][newSize];
+            int[][] d = new int[newSize][newSize];
+            int[][] e = new int[newSize][newSize];
+            int[][] f = new int[newSize][newSize];
+            int[][] g = new int[newSize][newSize];
+            int[][] h = new int[newSize][newSize];
+  
+
+            split(A, a, 0, 0);
+            split(B, e, 0, 0);
+            split(A, b, 0, newSize);
+            split(B, f, 0, newSize);
+            split(A, c, newSize, 0);
+            split(B, g, newSize, 0);
+            split(A, d, newSize, newSize);
+            split(B, h, newSize, newSize);
+       
+            int[][] outputa = add(classicMult(a,e), classicMult(b,g));
+            int[][] outputb = add(classicMult(a,f), classicMult(b,h));
+            int[][] outputc = add(classicMult(c,e), classicMult(d,g));
+            int[][] outputd = add(classicMult(c,f), classicMult(d,h));
+
+            merge(outputa, output, 0, 0);
+            merge(outputb, output, 0, newSize);
+            merge(outputc, output, newSize, 0);
+            merge(outputd, output, newSize, newSize);
+            
         }
-        System.out.println();
-        System.out.print("Distance: ");
-        for (int i = 0; i < length; i++){
-            System.out.print(distance[i] + " ");
+    
+        return output;
+    }
+    
+    
+    public int[][] strassenMult(int[][]A, int[][]B, int size){
+        int[][] output = new int[size][size];
+        if(size == 1){
+            output[0][0] = A[0][0] * B[0][0];
+        }else{
+            int newSize = size/2;
+            
+            int[][] a = new int[newSize][newSize];
+            int[][] b = new int[newSize][newSize];
+            int[][] c = new int[newSize][newSize];
+            int[][] d = new int[newSize][newSize];
+            int[][] e = new int[newSize][newSize];
+            int[][] f = new int[newSize][newSize];
+            int[][] g = new int[newSize][newSize];
+            int[][] h = new int[newSize][newSize];
+  
+
+            split(A, a, 0, 0);
+            split(B, e, 0, 0);
+            split(A, b, 0, newSize);
+            split(B, f, 0, newSize);
+            split(A, c, newSize, 0);
+            split(B, g, newSize, 0);
+            split(A, d, newSize, newSize);
+            split(B, h, newSize, newSize);
+           
+            int[][] p1 = classicMult(a, subtract(f, h));
+            int[][] p2 = classicMult(add(a, b), h);
+            int[][] p3 = classicMult(add(c, d), e);
+            int[][] p4 = classicMult(d, subtract(g, e));
+            int[][] p5 = classicMult(add(a, d), add(e, h));
+            int[][] p7 = classicMult(subtract(a, c), add(e, f));
+            int[][] outputa = add(classicMult(a,e), classicMult(b,g));
+            int[][] outputb = add(p1, p2);
+            int[][] outputc = add(p3, p4);
+            int[][] outputd = subtract(add(p1, p5), add(p3, p7));
+
+            merge(outputa, output, 0, 0);
+            merge(outputb, output, 0, newSize);
+            merge(outputc, output, newSize, 0);
+            merge(outputd, output, newSize, newSize);
+            
         }
-        System.out.println();
+    
+        return output;
+    }
+   
+    
+    public int[][] add(int[][] A, int[][] B){
+        int n = A.length;
+        int [][] resultArray = new int[n][n];
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                resultArray[i][j] = A[i][j] + B[i][j];
+            }
+        }
+        return resultArray;
+    }
+    public int[][] subtract(int[][] A, int[][] B){
+        int n = A.length;
+        int [][] resultArray = new int[n][n];
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                resultArray[i][j] = A[i][j] - B[i][j];
+            }
+        }
+        return resultArray;
+    }
+
+    public void merge(int[][] matrixToMerge, int[][] resultMatrix, int startingRow, int startingColumn){
+        int n = matrixToMerge.length;
+        for (int i = 0 ; i < n; i++ ){
+            for (int j = 0; j < n; j++){
+                resultMatrix[startingRow][startingColumn] = matrixToMerge[i][j];
+                startingColumn++;
+            }
+            startingColumn -= n;
+            startingRow++;
+        }
+    }
+
+    public void split(int[][] matrixToSplit, int[][] resultMatrix, int startingRow, int startingColumn){ 
+        int n = resultMatrix.length;
+        for (int i = 0; i < n; i++){
+
+            for (int j = 0; j < n; j++){
+ 
+                resultMatrix[i][j] = matrixToSplit[startingRow][startingColumn];
+                startingColumn++;
+            }
+            startingColumn -= n;
+            startingRow++;
+
+        }
 
     }
-  
-    public static void printGraph(int graph[][])
-    {
-        int n = graph.length;
-        for (int i=0; i<n; i++)
-        {
-            for (int j=0; j<n; j++)
-            {
-                if (graph[i][j]== inf)
-                    System.out.print("Inf");
-                else 
-                    System.out.print(graph[i][j]+"  ");
+    public void print(int [][] output){
+        size = output.length;
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++){
+                System.out.print(output[i][j] + " ");
             }
             System.out.println();
         }
     }
-
-    public void floydWarshall(int graph[][])
-    {
-        int n = graph.length;
-        int[][] distance = new int[n][n];
-        int[][] pred = new int[n][n];
-        /*        for  𝑢 ← 1 to 𝑛 do
-                    for  𝑣 ← 1 to 𝑛 do
-                        𝐷0[u,v] ← 𝑤(𝑢,𝑣) 
-        */
-        for (int u=0; u<n; u++)
-        {
-            for (int v=0; v<n; v++)
-            {
-                distance[u][v]= graph[u][v];
-                pred[u][v]= u+1;
-                
-               
+    public int[][] generateArray(int size){
+        int [][] arrayToGenerate = new int[size][size];
+        for(int i = 0; i < size; i++){
+            for(int j = 0; j < size; j++){
+                arrayToGenerate[i][j] = (int)(Math.random() * 10);
             }
         }
-
-        /*
-            for  𝑘 ← 1 to 𝑛 do
-                for  𝑢 ← 1 to 𝑛 do
-                    for  𝑣 ← 1 to 𝑛 do
-                        𝐷k[u,v] ← min(𝐷k-1[u,v],𝐷k-1[u,k]+𝐷k-1[k,v])
-         */ 
-        for (int k=0; k<n; k++)
-        {
-            for (int u=0; u<n; u++)
-            {
-                for (int v=0; v<n; v++)
-                {
-                    
-                    if (distance[u][k]+distance[k][v]< distance[u][v])
-                    {
-                        distance[u][v]= distance[u][k]+distance[k][v];
-                        pred[u][v]= pred[k][v];
-                    }
-                }
-
-            }
-        }
-        //return 𝐷k
-     //   System.out.println("Distance Matrix");
-       //printGraph(distance);
-        //System.out.println("Predecessor Matrix");
-       //printGraph(pred);
-       
-
-
+        return arrayToGenerate;
     }
+    
+  
 
-    public static int[][] generateRandomMatrix(int n, int percentInfinity) {
-        percentInfinity = percentInfinity / 10; 
-        int[][] adjacencyMatrix = new int[n][n];
-        int infinityRandom = (int)((Math.random() * 10) + 1);
-       
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                infinityRandom = (int)((Math.random() * 10) + 1);
-                if(infinityRandom <= percentInfinity){
-                    adjacencyMatrix[i][j] = (inf);
-                }else{
-                adjacencyMatrix[i][j] = (int)((Math.random() * 10) + 1);
-                }
-            }
-        }
-        return adjacencyMatrix;
-    }
+
 
 
 }
- 
